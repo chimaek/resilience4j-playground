@@ -661,7 +661,7 @@ tasks.named("processResources") {
 
 이렇게 하면 `./gradlew build` 한 번으로 React 빌드 + Spring Boot 패키징이 모두 끝난다.
 
-저장소에 들어 있는 `build.gradle.kts`는 빈 뼈대다. Spring Boot Gradle 플러그인은 `4.1.1`, dependency-management는 `1.1.7`이다. Boot BOM은 플러그인이 가져오므로 `platform()`으로 한 번 더 넣지 않는다. Spring Cloud BOM은 `2025.1.3`이다. Spring Boot 4에는 `spring-boot-starter-aop`가 없고 `spring-boot-starter-aspectj`를 쓴다. Lombok은 `compileOnly`와 `annotationProcessor`, configuration processor는 `annotationProcessor`이며 Lombok 프로세서를 먼저 선언한다. 태스크 공통 설정은 `tasks.withType<T>().configureEach`를 쓴다. 프론트 빌드 결과를 `static/`으로 복사하는 태스크는 화면 구현 뒤에 붙인다.
+저장소에 들어 있는 `build.gradle.kts`는 빈 뼈대다. Spring Boot Gradle 플러그인은 `4.1.1`, dependency-management는 `1.1.7`이다. Boot BOM은 플러그인이 가져오므로 `platform()`으로 한 번 더 넣지 않는다. Spring Cloud BOM은 `2025.1.3`이다. 이 BOM의 `resilience4j.version`은 `2.3.0`이라, 그대로 두면 `@Retry` 등에 `configuration`이 없다. 빌드는 `resilience4j-bom` `2.4.0`으로 덮어쓴다. Cloud 스타터의 `resilience4j-spring-boot3`는 빼서 애너테이션 자동 설정은 `resilience4j-spring-boot4`만 쓴다. Spring Boot 4에는 `spring-boot-starter-aop`가 없고 `spring-boot-starter-aspectj`를 쓴다. Lombok은 `compileOnly`와 `annotationProcessor`, configuration processor는 `annotationProcessor`이며 Lombok 프로세서를 먼저 선언한다. 태스크 공통 설정은 `tasks.withType<T>().configureEach`를 쓴다. 프론트 빌드 결과를 `static/`으로 복사하는 태스크는 화면 구현 뒤에 붙인다.
 
 이 저장소의 Gradle 파일은 `backend/`가 아니라 루트에 있다. `npm` 태스크의 `workingDir`은 `frontend/`이고, 복사 목적지는 루트 모듈의 `src/main/resources/static`이다. 위 예시의 `../frontend`와 `com.example`는 초안 경로다. 구현은 [23장](#23-저장소-구현-기준)을 따른다.
 

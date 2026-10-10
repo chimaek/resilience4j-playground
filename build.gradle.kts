@@ -18,14 +18,17 @@ repositories {
 }
 
 val springCloudVersion = "2025.1.3"
+val resilience4jVersion = "2.4.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("io.github.resilience4j:resilience4j-spring-boot4:2.4.0")
+    implementation("io.github.resilience4j:resilience4j-spring-boot4:$resilience4jVersion")
     implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j") {
+        exclude(group = "io.github.resilience4j", module = "resilience4j-spring-boot3")
+    }
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
@@ -38,7 +41,10 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}") {
+            bomProperty("resilience4j.version", resilience4jVersion)
+        }
+        mavenBom("io.github.resilience4j:resilience4j-bom:$resilience4jVersion")
     }
 }
 
