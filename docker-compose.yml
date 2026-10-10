@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xms512m -Xmx1536m -XX:+UseZGC -XX:MaxMetaspaceSize=256m
+    mem_limit: 2g
+    cpus: 3.0
+    restart: unless-stopped
